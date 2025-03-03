@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import axios from 'axios';
-
-  definePageMeta({
+definePageMeta({
     layout: "centered",
-
+    middleware: ['guest'],
   });
 
  
@@ -11,6 +9,8 @@ import axios from 'axios';
     email: "",
     password: ""
   })
+
+  const {login} = useAuth();
 
 
 </script>
