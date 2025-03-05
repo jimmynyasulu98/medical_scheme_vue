@@ -14,7 +14,8 @@
     store.fetchUsers(`users/${route.params.id}`)
 
     async function delete_dependant($id, index) {
-        await axios.delete(`dependants/${$id}`)  
+        await axios.delete(`dependants/${$id}`) 
+        store.deletePost($id) 
     }
       
 </script>
@@ -175,16 +176,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="(dependant, index) in store.getDependants"  v-bind:key="index" >
-                                            <td>{{dependant.first_name}}</td>
-                                            <td>{{dependant.last_name}}</td>
-                                            <td>Sibling</td>
-                                            <td>
-                                                <NuxtLink class="hover:cursor-pointer focus:outline-none " 
-                                                    @click="delete_dependant(dependant.id, index)">
-                                                    <iconTrash />
-                                                </NuxtLink>
-                                            </td>                             
+                                        <tr v-for="(dependant, index) in store.users.data?.dependants"  v-bind:key="index" >
+                                            <dependantTd :dependant="dependant"/>                      
                                         </tr>
                                     </tbody>
                                 </table>

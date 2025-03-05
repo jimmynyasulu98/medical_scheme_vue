@@ -1,18 +1,25 @@
 <script setup>
-import { useRoute } from 'vue-router'
-import axios from 'axios';
-defineProps({
+    import axios from 'axios';
+
+    import { useTestsStore } from '~~/stores/tests';
+    defineProps({
         dependant: {
             type: Object,
             required: true
         }
     })
 
-    const route = useRoute()
-    async function delete_dependant($id,index) {
-        await axios.delete(`dependants/${$id}`)  
-      
+    definePageMeta({
+        middleware: ['auth'],
+    })
+    const store = useTestsStore();
+ 
+
+    async function delete_dependant($id) {
+        await axios.delete(`dependants/${$id}`) 
+        store.deletePost($id) 
     }
+      
   
 </script>
 <template>
@@ -22,7 +29,7 @@ defineProps({
     <td>Sibling</td>
     <td>
         <NuxtLink class="hover:cursor-pointer focus:outline-none " 
-            @click="delete_dependant(dependant.id, index)">
+            @click="delete_dependant(dependant.id)">
             <iconTrash />
         </NuxtLink>
     </td>  

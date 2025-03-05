@@ -1,16 +1,21 @@
 <script setup>
+    import { useTestsStore } from '~~/stores/tests';
+    import { useRoute } from 'vue-router'
 
 
-definePageMeta({
+    definePageMeta({
 
-    middleware: ['auth'],
+        middleware: ['auth'],
+    
+    });
+
+    const store = useTestsStore();
+    const route = useRoute()
+    store.fetchUsers(`users`)
+
  
-  });
 
-  const {user} = useAuth();
- 
 
-   
 </script>
 <template>
     <div id="home">
@@ -29,141 +34,138 @@ definePageMeta({
       </nav>
       <!-- breadcrumb end -->
 
-    <div class="lg:flex justify-between items-center mb-6">
-    <p class="text-m font-semibold mb-2 lg:mb-0"> </p>
-        <NuxtLink class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded-lg px-6 py-2 
+    <div class="lg:flex justify-between items-center mb-2">
+        <p class="text-m font-semibold mb-2 lg:mb-0"></p>
+        <NuxtLink class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded-lg px-6 py-1
             text-white font-semibold shadow" :to="`staff/new`">New Staff</NuxtLink>
     </div>
-
-    <div class="flex flex-wrap -mx-3 mb-20 justify-center">
+    <div class="lg:flex justify-start items-center mb-2">
         
-      
+        <div class="relative text-gray-600 px-3">
+            <input type="search" name="serch" placeholder="Search products..." class="bg-white h-6 w-full xl:w-30 px-3 rounded-lg border text-sm focus:outline-none">
+            <button type="submit" class="absolute right-0 top-0 mt-2 mr-4">
+            <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" width="512px" height="512px">
+                <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z"/>
+            </svg>
+            </button>
+        </div>
+       
+        <div class="relative  text-gray-600 px-3">
+            <select class="xl:w-30 px-3 rounded-lg border text-sm focus:outline-none bg-white" >
+                <option disabled selected>Select University</option>
+                <option >UNIMA</option>
+                <option >MUBAS</option>
+                <option >LUANAR NRC</option>
+                <option >LUANAR BUNDA</option>
+            </select>
+        </div>
+        <div class="relative  text-gray-600 px-3">
+            <select class="xl:w-30 px-3 rounded-lg border text-sm focus:outline-none bg-white">
+                <option disabled selected>Select Cover</option>
+                <option >COMPREHENSIVE</option>
+                <option >STANDARD</option>
+                <option >STUDENT</option>
+                <option >LUANAR BUND</option>
+            </select>
+        </div>
 
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-            
-                <th scope="col" class="px-6 py-3">
-                    Product name
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Color
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Category
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Price
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Action
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-               
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Apple MacBook Pro 17"
-                </th>
-                <td class="px-6 py-4">
-                    Silver
-                </td>
-                <td class="px-6 py-4">
-                    Laptop
-                </td>
-                <td class="px-6 py-4">
-                    $2999
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-               
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Microsoft Surface Pro
-                </th>
-                <td class="px-6 py-4">
-                    White
-                </td>
-                <td class="px-6 py-4">
-                    Laptop PC
-                </td>
-                <td class="px-6 py-4">
-                    $1999
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+
+    </div>
+    <hr class=" mb-2 bg-gray">
+    <div class="flex-mx-3 mb-20 justify-center">
+        
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg ">
+            <table class="w-full text-sm text-left rtl:text-right">
+                <thead class="text-xs text-white uppercase bg-gray-10 dark:bg-gray-700 dark:text-white">
+                    <tr>
+                    
+                        <th scope="col" class="px-3 py-3">
+                            First name(s)
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            Last Name
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            Membership Number
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            Cover
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            Gender
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            Date of Birth
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            Date of Joined
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    <tr class="hover:bg-gray-800 border-1 border-gray-100 "  v-for="(member, index) in store.users.data"  v-bind:key="index">
+                    
+                        <th  class="px-3 py-1 font-medium">
+                            {{ member.first_name }}
+                        </th>
+                        <td class="px-2 py-1">
+                            {{ member.last_name }}
+                        </td>
+                        <td class="px-2 py-1">
+                            {{ member.membership_number }}
+                        </td>
+                        <td class="px-2 py-1">
+                            Comprehensive
+                        </td>
+                        <td class="px-2 py-1">
+                            Male
+                        </td>
+                        <td class="px-2 py-1">
+                            02/03/1983
+                        </td>
+                        <td class="px-2 py-1">
+                            01/02/2011
+                        </td>
+                        <td class="px-2 py-1">
+                            <NuxtLink :to="`staff/${member.id}`" class=" text-blue-600 dark:text-blue-500 hover:cursor-pointer focus:outline-none"  >
+                                <IconEye />
+                            </NuxtLink>
+                        </td>
+                    </tr>
+                   
                 
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Magic Mouse 2
-                </th>
-                <td class="px-6 py-4">
-                    Black
-                </td>
-                <td class="px-6 py-4">
-                    Accessories
-                </td>
-                <td class="px-6 py-4">
-                    $99
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    Apple Watch
-                </th>
-                <td class="px-6 py-4">
-                    Black
-                </td>
-                <td class="px-6 py-4">
-                    Watches
-                </td>
-                <td class="px-6 py-4">
-                    $199
-                </td>
-                <td class="px-6 py-4">
-                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                </td>
-            </tr>
-           
-        </tbody>
-    </table>
-    <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
-        <span class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing <span class="font-semibold text-gray-900 dark:text-white">1-10</span> of <span class="font-semibold text-gray-900 dark:text-white">1000</span></span>
-        <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-            <li>
-                <a href="#" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-            </li>
-            <li>
-                <a href="#" aria-current="page" class="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</a>
-            </li>
-            <li>
-                <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
-            </li>
-            <li>
-        <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
-            </li>
-        </ul>
-    </nav>
-</div>
+                </tbody>
+            </table>
+            <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
+                <span class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing <span class="font-semibold text-gray-900 dark:text-white">1-10</span> of <span class="font-semibold text-gray-900 dark:text-white">1000</span></span>
+                <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+                    <li>
+                        <a href="#" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+                    </li>
+                    <li>
+                        <a href="#" aria-current="page" class="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
+                    </li>
+                    <li>
+                <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
 
     </div>

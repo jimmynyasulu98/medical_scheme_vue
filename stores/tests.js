@@ -27,6 +27,7 @@ export const useTestsStore = defineStore('test-store', {
   },
 
   actions: {
+    
     async fetchUsers(url) {
       try {
         const data = await axios.get(url)
@@ -36,7 +37,12 @@ export const useTestsStore = defineStore('test-store', {
           alert(error)
           console.log(error)
       }
+    },
+
+    deletePost(id){
+      this.users.data.dependants = this.users.data?.dependants?.filter(p => p.id !== id)
     }
+
   },
 })
 
