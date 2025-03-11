@@ -41,7 +41,24 @@ export const useTestsStore = defineStore('test-store', {
 
     deletePost(id){
       this.users.data.dependants = this.users.data?.dependants?.filter(p => p.id !== id)
-    }
+    },
+
+    async approveClaim(url, claim_id){
+      try {
+        const data = await axios.post(url)
+       
+        }
+        catch (error) {
+          alert(error)
+          console.log(error)
+      }
+      
+    },
+
+    rejectClaim(){
+
+    },
+
 
   },
 })

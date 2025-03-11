@@ -1,20 +1,13 @@
 <script setup>
-    import { useTestsStore } from '~~/stores/tests';
-    import { useRoute } from 'vue-router'
-
+  
+    import { useInvoicesStore } from '~~/stores/invoices';
 
     definePageMeta({
 
         middleware: ['auth'],
-    
     });
-
-    const store = useTestsStore();
-    const route = useRoute()
-    store.fetchUsers(`users`)
-
- 
-
+    const store = useInvoicesStore();
+    store.fetchInvoices(`invoices`)
 
 </script>
 <template>
@@ -32,12 +25,13 @@
           </li>
         </ol>
       </nav>
+
       <!-- breadcrumb end -->
 
     <div class="lg:flex justify-between items-center mb-2">
         <p class="text-m font-semibold mb-2 lg:mb-0"></p>
         <NuxtLink class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded-lg px-6 py-1
-            text-white font-semibold shadow" :to="`staff/new`">New Staff</NuxtLink>
+            text-white font-semibold shadow" :to="`staff/new`">New</NuxtLink>
     </div>
     <div class="lg:flex justify-start items-center mb-2">
         
@@ -68,8 +62,6 @@
                 <option >LUANAR BUND</option>
             </select>
         </div>
-
-
     </div>
     <hr class=" mb-2 bg-gray">
     <div class="flex-mx-3 mb-20 justify-center">
@@ -80,57 +72,41 @@
                     <tr>
                     
                         <th scope="col" class="px-3 py-3">
-                            First name(s)
+                            #
                         </th>
                         <th scope="col" class="px-2 py-3">
-                            Last Name
+                            Name
                         </th>
                         <th scope="col" class="px-2 py-3">
-                            Membership Number
+                            Total
                         </th>
                         <th scope="col" class="px-2 py-3">
-                            Cover
+                            Date 
                         </th>
                         <th scope="col" class="px-2 py-3">
-                            Gender
+                            Action 
                         </th>
-                        <th scope="col" class="px-2 py-3">
-                            Date of Birth
-                        </th>
-                        <th scope="col" class="px-2 py-3">
-                            Date of Joined
-                        </th>
-                        <th scope="col" class="px-2 py-3">
-                            Action
-                        </th>
+                        
                     </tr>
                 </thead>
                 <tbody> 
-                    <tr class="hover:bg-gray-300 border-1 border-gray-100 "  v-for="(member, index) in store.users.data"  v-bind:key="index">
-                    
+                    <tr class="hover:bg-gray-300 border-1 border-gray-100 "  v-for="(invoice, index) in store.invoices.data"  v-bind:key="index">
                         <th  class="px-3 py-1 font-medium">
-                            {{ member.first_name }}
+                            {{ index+1 }}
                         </th>
+                        <th  class="px-3 py-1 font-medium">
+                            {{ invoice.service_provider.short_name }}
+                        </th>
+                
                         <td class="px-2 py-1">
-                            {{ member.last_name }}
+                            {{ invoice.total }}
                         </td>
-                        <td class="px-2 py-1">
-                            {{ member.membership_number }}
-                        </td>
-                        <td class="px-2 py-1">
-                            Comprehensive
-                        </td>
-                        <td class="px-2 py-1">
-                            Male
-                        </td>
-                        <td class="px-2 py-1">
-                            02/03/1983
-                        </td>
+                        
                         <td class="px-2 py-1">
                             01/02/2011
                         </td>
                         <td class="px-2 py-1">
-                            <NuxtLink :to="`staff/${member.id}`" class=" text-blue-600 dark:text-blue-500 hover:cursor-pointer focus:outline-none"  >
+                            <NuxtLink :to="`/invoices/${invoice.id}`" class=" text-blue-600 dark:text-blue-500 hover:cursor-pointer focus:outline-none"  >
                                 <IconEye />
                             </NuxtLink>
                         </td>

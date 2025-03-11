@@ -21,6 +21,7 @@ export default defineNuxtConfig({
     "/profiles/*": { swr: true },
     "/*": { ssr: false },
     "/staff/*": { ssr: false },
+    "/invoices/*": { ssr: false },
     "/components/*": { ssr: false },
    
 
