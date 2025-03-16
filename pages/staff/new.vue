@@ -145,8 +145,8 @@ import axios from "axios";
                         <div class="w-full max-w-sm min-w-[200px]">      
                           <div class="relative">
                             <select v-model="form.location"
-                                class="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-1 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
-                              <option v-for="(location, index) in locations.data" :key="index" :value="location.id" >{{location.title}}</option>
+                                class="w-full   dark:text-black placeholder:text-black text-black text-sm border border-slate-200 rounded pl-3 pr-1 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
+                              <option class=" dark:text-black placeholder:text-black text-black text-sm " v-for="(location, index) in locations.data" :key="index" :value="location.id" >{{location.full_name}}</option>
                             </select>
                            
                             <svg  fill="none" viewBox="0 0 24 24" stroke-width="1.2" stroke="currentColor" class="h-5 w-5 ml-1 absolute top-1 right-2.5 text-slate-700">

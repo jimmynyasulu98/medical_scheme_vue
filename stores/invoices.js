@@ -33,9 +33,17 @@ export const useInvoicesStore = defineStore('invoice-store', {
       }
     },
 
-    deletePost(id){
-      this.users.data.dependants = this.users.data?.dependants?.filter(p => p.id !== id)
+    async add_invoice(url, payload) {
+      try {
+        const data = await axios.post(url,payload)
+  
+        }
+        catch (error) {
+          alert(error)
+          console.log(error)
+      }
     },
+   
 
     claim($claim_id){
       this.claims = this.invoices.data?.claims.find(item => item.id == $claim_id)

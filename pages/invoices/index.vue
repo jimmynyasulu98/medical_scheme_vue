@@ -30,11 +30,15 @@
 
     <div class="lg:flex justify-between items-center mb-2">
         <p class="text-m font-semibold mb-2 lg:mb-0"></p>
-        <NuxtLink class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded-lg px-6 py-1
-            text-white font-semibold shadow" :to="`staff/new`">New</NuxtLink>
+       
+        <button data-modal-target="default-modal" data-modal-toggle="default-modal" class="bg-blue-500 hover:bg-blue-600 focus:outline-none rounded-lg px-6 py-1
+        text-white font-semibold shadow" type="button">
+          New
+        </button>
+
     </div>
     <div class="lg:flex justify-start items-center mb-2">
-        
+        <NewInvoiceModal/>
         <div class="relative text-gray-600 px-3">
             <input type="search" name="serch" placeholder="Search here..." class="bg-white h-6 w-full xl:w-40 px-3 rounded-lg border text-sm focus:outline-none">
             <button type="submit" class="absolute right-0 top-0 mt-2 mr-4">
@@ -75,7 +79,7 @@
                             #
                         </th>
                         <th scope="col" class="px-2 py-3">
-                            Name
+                            Service Provider
                         </th>
                         <th scope="col" class="px-2 py-3">
                             Total

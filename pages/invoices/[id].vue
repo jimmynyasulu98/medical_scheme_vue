@@ -38,7 +38,7 @@
             <p class="font-poppins font-bold text-heading sm:text-sm text-sm capitalize underline">
                 Service Provider 
             </p>
-            <p class="text-heading">{{ store.invoices?.data?.service_provider.short_name}}</p>
+            <p class="text-heading">{{ store.invoices?.data?.service_provider?.short_name}}</p>
         </div>
         <div class=" w-2/3 sm:text-center pl-5 mt-10 text-start">
             <p class="font-poppins font-bold text-heading sm:text-sm text-sm capitalize underline">
