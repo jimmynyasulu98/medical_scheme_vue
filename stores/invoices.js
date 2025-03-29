@@ -28,7 +28,7 @@ export const useInvoicesStore = defineStore('invoice-store', {
           this.invoices = data.data
         }
         catch (error) {
-          alert(error)
+         
           console.log(error)
       }
     },
@@ -36,12 +36,15 @@ export const useInvoicesStore = defineStore('invoice-store', {
     async add_invoice(url, payload) {
       try {
         const data = await axios.post(url,payload)
-  
+        this.invoices = data.data
+        useRouter().push( `invoices/`)
+        
         }
         catch (error) {
           alert(error)
           console.log(error)
-      }
+          useRouter().push( `invoices/`)
+        }
     },
    
 
