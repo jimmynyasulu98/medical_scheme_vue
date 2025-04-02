@@ -47,6 +47,34 @@ export const useRolesStore = defineStore('role-store', {
         }
     },
 
+    async update_role(url, payload) {
+      try {
+        await axios.patch(url,payload)
+        this.roles = this.fetchRoles('/roles')
+        useRouter().push( `roles/`)
+        
+        }
+        catch (error) {
+          alert(error)
+          console.log(error)
+          useRouter().push( `roles/`)
+        }
+    },
+
+    async delete_role(url, payload) {
+      try {
+        await axios.delete(url)
+        this.roles = this.fetchRoles('/roles')
+        useRouter().push( `roles/`)
+        
+        }
+        catch (error) {
+          alert(error)
+          console.log(error)
+          useRouter().push( `roles/`)
+        }
+    },
+
   },
 })
 

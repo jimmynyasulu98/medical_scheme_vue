@@ -31,6 +31,33 @@ export const usePermissionsStore = defineStore('permission-store', {
       }
     },
 
+    async add_permission(url, payload) {
+      try {
+        await axios.post(url,payload)
+        this.permissions = this.fetchPermissions('/permissions')
+        useRouter().push( `roles/`)
+        
+        }
+        catch (error) {
+          alert(error)
+          console.log(error)
+          useRouter().push( `roles/`)
+        }
+    },
+
+    async delete_permission(url) {
+      try {
+        await axios.delete(url)
+        this.permissions = this.fetchPermissions('/permissions')
+        useRouter().push( `roles/`)
+        
+        }
+        catch (error) {
+          alert(error)
+          console.log(error)
+          useRouter().push( `roles/`)
+        }
+    },
    
 
   },

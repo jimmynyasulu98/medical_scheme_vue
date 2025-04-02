@@ -12,6 +12,13 @@
     const permissions = usePermissionsStore();
     permissions.fetchPermissions(`/permissions`)
 
+    const deleteRole = (id) => {
+        roles.delete_role(`roles/${id}`)   
+    }
+
+    const deletePermission = (id) => {
+        permissions.delete_permission(`permissions/${id}`)   
+    }
 </script>
 <template>
     <div id="roles">
@@ -32,23 +39,18 @@
             <div class="flex flex-col sm:flex-row sm:mt-3">
 
                 <div class="flex flex-col sm:w-1/2">
-                    <div class="lg:flex justify-between items-center mb-2">
-                        <p class="text-m font-semibold mb-2 lg:mb-0"></p>
                     
-                        <button data-modal-target="new-role-modal" data-modal-toggle="new-role-modal" class="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer focus:outline-none rounded-lg px-2 py-1
-                        text-white font-semibold shadow" type="button">
-                            New Role
-                        </button>
-                        
-                    </div>
                     <NewRoleModal/>
-                   
                     <!-- Roles -->
                     <div class="py-1 sm:order-none">
-                        <div class="flex justify-center align-middle">
-                            <h2 class="font-poppins font-bold text-heading sm:text-sm text-sm capitalize ">All Roles</h2>
+                        <div class="flex justify-between items-center mb-2">
+                            <p class="text-m font-semibold mb-2 lg:mb-0">All Roles</p>
+                            <button data-modal-target="new-role-modal" data-modal-toggle="new-role-modal" class="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer focus:outline-none rounded-lg px-2 py-1
+                            text-white font-semibold shadow" type="button">
+                                New Role
+                            </button>
                         </div>
-                        <div class=" sm:text-center pl-5 mt-1 text-start ">
+                        <div class=" sm:text-center mt-1 text-start ">
                             <table class="w-full text-sm text-left rtl:text-right h-10 ">
                                 <thead class="text-xs text-white uppercase bg-gray-10 dark:bg-gray-700 dark:text-white">
                                     <tr>
@@ -65,25 +67,30 @@
                                 </thead>
                                 <tbody> 
                                     <tr class="hover:bg-gray-200 border-1  border-gray-600 " v-for="(role, index) in roles.roles.data"  v-bind:key="index"  >
-                                    <td  class="px-2 py-1">
-                                        {{ index+1 }}
-                                    </td>
-                                    <td  class="px-2 py-1">
-                                        {{ role.name }}
-                                      
-                                    </td>
-                                    <td  class="flex px-2 py-1">
-                                        <NuxtLink  class=" text-blue-600 dark:text-blue-600 hover:text-l hover:cursor-pointer focus:outline-none"  >
-                                            <IconEye/>
-                                        </NuxtLink>
-                                        |
-                                        <button :data-modal-target="edit-role-modal-`${role.id}`" :data-modal-toggle="edit-role-modal-`${role.id}`" class="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer focus:outline-none rounded-lg px-2 py-1
-                                        text-white font-semibold shadow" type="button">
-                                            <IconEdit/>
-                                        </button>
-                                        <editRoleModal :role="role"/>
-                                    </td>   
-                                </tr>
+                                        <td  class="px-2 py-1">
+                                            {{ index+1 }}
+                                        </td>
+                                        <td  class="px-2 py-1">
+                                            {{ role.name }}
+                                        
+                                        </td>
+                                        <td  class="flex px-2 py-1">
+                                            <button :data-modal-target="'edit-role-modal'+-role.id" :data-modal-toggle="'edit-role-modal'+-role.id" class="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer focus:outline-none rounded-lg px-2 py-1
+                                            text-white font-semibold shadow" type="button">
+                                                <IconEdit/>
+                                            </button>
+                                            |
+                                            <NuxtLink class="  hover:cursor-pointer  rounded-lg px-2 py-1 text-black font-semibold shadow" type="button">
+                                                <IconEye class="hover:text-gray-100"/>
+                                            </NuxtLink>
+                                            |
+                                            <NuxtLink @click="deleteRole(role.id)" class="  hover:cursor-pointer  rounded-lg px-2 py-1 font-semibold ">
+                                                <IconTrash class="hover:text-red-500 bg-red-600"/>
+                                            </NuxtLink>
+                                           
+                                        </td> 
+                                        <editRoleModal :role="role"/>  
+                                    </tr>
                                 </tbody>
                             </table>
                             
@@ -93,8 +100,13 @@
                 </div>
 
                 <div class="flex flex-col sm:w-1/2">
-                    <div class="flex justify-center align-middle">
-                        <h2 class="font-poppins font-bold text-heading sm:text-sm text-sm capitalize ">All Permisions</h2>
+                    <newPermissionModal/>
+                    <div class="flex justify-between items-center mb-2 pl-5 ">
+                        <p class="text-m font-semibold mb-2 ">All Permisions</p>
+                        <button data-modal-target="new-permission-modal" data-modal-toggle="new-permission-modal" class="bg-blue-500 hover:bg-blue-600 hover:cursor-pointer focus:outline-none rounded-lg px-2 py-1
+                        text-white font-semibold shadow" type="button">
+                            New Permision
+                        </button>
                     </div>
                     <div class=" sm:text-center pl-5 mt-1 text-start ">
                         <table class="w-full text-sm text-left rtl:text-right h-10 ">
@@ -119,9 +131,13 @@
                                     <td  class="px-2 py-1">
                                         {{ permission.name }}
                                     </td>
-                                    <td  class="px-2 py-1">
+                                    <td  class="flex px-2 py-1">
                                         <NuxtLink  class=" text-blue-600 dark:text-blue-600 hover:text-l hover:cursor-pointer focus:outline-none"  >
                                             <IconEdit/>
+                                        </NuxtLink>
+                                        |
+                                        <NuxtLink @click="deletePermission(permission.id)" class="  hover:cursor-pointer  rounded-lg px-2 py-1 font-semibold ">
+                                                <IconTrash class="hover:text-red-500 bg-red-600"/>
                                         </NuxtLink>
                                     </td>   
                                 </tr>
