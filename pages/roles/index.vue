@@ -85,7 +85,7 @@
                                             </NuxtLink>
                                             |
                                             <NuxtLink @click="deleteRole(role.id)" class="  hover:cursor-pointer  rounded-lg px-2 py-1 font-semibold ">
-                                                <IconTrash class="hover:text-red-500 bg-red-600"/>
+                                                <IconTrash class="hover:text-red-500"/>
                                             </NuxtLink>
                                            
                                         </td> 
@@ -137,7 +137,7 @@
                                         </NuxtLink>
                                         |
                                         <NuxtLink @click="deletePermission(permission.id)" class="  hover:cursor-pointer  rounded-lg px-2 py-1 font-semibold ">
-                                                <IconTrash class="hover:text-red-500 bg-red-600"/>
+                                                <IconTrash class="hover:text-red-500"/>
                                         </NuxtLink>
                                     </td>   
                                 </tr>

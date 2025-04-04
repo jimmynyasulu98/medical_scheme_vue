@@ -1,38 +1,42 @@
 <script setup>
 
-    import { onMounted } from 'vue'
-    import { useFlowbite } from '~/composables/useFlowbite';
+    import { useRoute } from 'vue-router'
     import { usePermissionsStore } from '~~/stores/permissions';
     import { useRolesStore } from '~~/stores/roles';
-   
-    const role = defineProps({role: Object})
-    // initialize components based on data attribute selectors
-    onMounted(() => {
-        useFlowbite(() => {
-            initFlowbite();
-        })
-    })
+    import { useEmployeeStore } from '~~/stores/employees';
 
+    definePageMeta({
+        middleware: ['auth'],
+    })
+   
     const permissions = usePermissionsStore();
     permissions.fetchPermissions(`/permissions`)
 
-   
-    
-
-    const form = ref({
-        roles: [],
-        permissions: []
-    
-    })
-
-   
-
     const roles = useRolesStore();
     roles.fetchRoles(`/roles`)
+    const route = useRoute()
+   
 
-    const updateRole = (form) => {
-        roles.update_role(`roles/${role.role.id}`, form)   
+    const employee = useEmployeeStore();
+    employee.fetchEmployees(`employees/${route.params.id}`)
+
+    const assignRole = (link, payload) => {
+        employee.assignRoles(link, payload) 
     }
+
+    const unassignRole = (link, payload) => {
+        employee.unassignRoles(link, payload) 
+    }
+
+    const assignPermission = (link, payload) => {
+        employee.assignPermissions(link, payload) 
+    }
+
+    const unassignPermission = (link, payload) => {
+        employee.unassignPermissions(link, payload) 
+    }
+
+
 
 </script>
 <template>
@@ -51,72 +55,144 @@
         </nav>
         <div class="relative flex flex-col my-6 bg-gray-100 shadow-sm border border-slate-200 rounded-lg w-auto">
             <div class="pl-5 flex align-middle mx-3 mb-0 border-b border-slate-200 pt-3 pb-2 px-1">
-                <p>Assign Roles and Permision to .........</p>
+                <p>Assign Roles and Permision to ........</p>
                 <span class="text-sm text-black font-medium mx-4">
-                    JI
+                    {{ employee.employees?.data?.first_name }} {{ employee.employees?.data?.last_name }}
                 </span>
             </div>
             
             <div class="p-4">
                 
                 <div class="flex flex-col sm:flex-row sm:mt-1">
-
                     <div class="flex flex-col sm:w-1/2">
                 
                         <!-- Roles -->
                         <div class="py-1 sm:order-none">
                             <div class=" sm:text-center mt-1 text-start ">
-                                <form class="p-4 md:p-5 space-y-4" @submit.prevent="updateRole(form)"> 
-                                    <div class="w-full px-3">
-                                        <label for="gender" class="block text-md font-medium text-[#000000] py-2">
-                                            Roles
-                                        </label>
-
-                                        <div class="inline-flex  items-center px-2 mb-2" v-for="(role, index) in roles.roles.data"  v-bind:key="index">  
-                                            
-                                            <input  v-model="form.roles"    type="checkbox" 
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                            <label  class="ms-2 text-sm font-medium">{{ role.name }}</label>
-
-                                        </div>   
-                                    </div>
-                                    
-                                    <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                        <button type="submit"  class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700">Update</button>
-                                    </div>
-                                </form>
-
+                                
+                                <div class="w-full px-3">
+                                    <label for="gender" class="block text-md font-medium text-[#000000] py-2">
+                                        Roles
+                                    </label>
+                                    <div class=" sm:text-center mt-1 text-start ">
+                                        <table class="text-sm text-left rtl:text-right h-10 ">
+                                            <thead class="text-xs text-white uppercase bg-gray-10 dark:bg-gray-700 dark:text-white">
+                                                <tr>
+                                                
+                                                    <th scope="col" class="px-3 py-1">
+                                                        No.
+                                                    </th>
+                                                    <th scope="col" class="px-3 py-1">
+                                                        Name
+                                                    </th>
+                                                
+                                                    <th scope="col" class="px-2 py-1">
+                                                        Status
+                                                    </th>
+                                                    <th scope="col" class="px-2 py-1 col-span-3">
+                                                        Action 
+                                                    </th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody> 
+                                                <tr class="hover:bg-gray-200 border-1  border-gray-600 "  v-for="(role, index) in roles.roles.data"  v-bind:key="index">
+                                                    <td  class="px-2 py-1">
+                                                        {{ index+1 }}
+                                                    </td>
+                                                    <td  class="px-2 py-1">
+                                                        {{ role.name }}
+                                                    </td>
+                                                    
+                                                    <td  class="px-2 py-1 ">
+                                                        <IconCheck  v-if="employee.roles.includes(role.name)" class="rounded-sm text-blue-600"/>
+                                                        <IconTimes  v-else class="rounded-sm text-red-500"/>
+                                                        
+                                                    </td>
+                                                    <td class=" py-1  flex">
+                                                        <button  v-if="employee.roles.includes(role.name)" @click="unassignRole(`/employees/${employee.employees?.data?.id}/unassign-role`,{'name':role.name})" class="px-3 dark:outline-blue-500  dark:border-blue-500 text-white-600 dark:text-blue-600 hover:cursor-pointer hover:text-red-600"  >
+                                                            Unasign Role
+                                                        </button>
+                                                        <button  v-else @click="assignRole(`/employees/${employee.employees?.data?.id}/assign-role`,{'name':role.name})" class="px-3 dark:outline-blue-500  dark:border-blue-500 dark:text-black-600 hover:cursor-pointer hover:text-blue-600"  >
+                                                            Assign Role
+                                                        </button>
+                                                        
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>   
+                                     
+                                </div>
+                            
                             </div>
                         </div>
 
                     </div>
 
-                    <div class="flex flex-col sm:w-1/2">
+                    <div class="flex flex-col ">
 
-                        <div class=" sm:text-center pl-5 mt-1 text-start ">
-                            <form class="p-4 md:p-5 space-y-4" @submit.prevent="updateRole(form)"> 
-                                <div class="w-full px-3">
+                        <div class=" sm:text-center mt-1 text-start ">
+                            
+                                <div class="w-full">
                                     <label for="gender" class="block text-md font-medium text-[#000000] py-2">
                                         permissions
                                     </label>
 
-                                    <div class="inline-flex  items-center px-2 mb-2" v-for="(permission, index) in permissions.permissions.data"  v-bind:key="index">  
-                                        
-                                        <input  v-model="form.permissions"    type="checkbox" 
-                                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                                        <label  class="ms-2 text-sm font-medium">{{ permission.name }}</label>
-
-                                    </div>   
+                                    <div class=" sm:text-center mt-1 text-start ">
+                                        <table class="text-sm text-left rtl:text-right h-10 ">
+                                            <thead class="text-xs text-white uppercase bg-gray-10 dark:bg-gray-700 dark:text-white">
+                                                <tr>
+                                                
+                                                    <th scope="col" class="px-3 py-1">
+                                                        No.
+                                                    </th>
+                                                    <th scope="col" class="px-3 py-1">
+                                                        Name
+                                                    </th>
+                                                
+                                                    <th scope="col" class="px-2 py-1">
+                                                        Status
+                                                    </th>
+                                                    <th scope="col" class="px-2 py-1 col-span-3">
+                                                        Action 
+                                                    </th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody> 
+                                                <tr class="hover:bg-gray-200 border-1  border-gray-600 "  v-for="(permission, index) in permissions.permissions.data"  v-bind:key="index">
+                                                    <td  class="px-2 py-1">
+                                                        {{ index+1 }}
+                                                    </td>
+                                                    <td  class="px-2 py-1">
+                                                        {{ permission.name }}
+                                                    </td>
+                                                    
+                                                    <td  class="px-2 py-1 ">
+                                                        <IconCheck  v-if="employee.permissions.includes(permission.name)" class="rounded-sm text-blue-600"/>
+                                                        <IconTimes  v-else class="rounded-sm text-red-500"/>
+                                                        
+                                                    </td>
+                                                    <td class=" py-1  flex">
+                                                        <button  v-if="employee.permissions.includes(permission.name)"  @click="unassignPermission(`/employees/${employee.employees?.data?.id}/unassign-permission`,{'name':permission.name})" class="px-3 dark:outline-blue-500  dark:border-blue-500 text-white-600 dark:text-blue-600 hover:cursor-pointer hover:text-red-600"  >
+                                                            Unasign permission
+                                                        </button>
+                                                        <button  v-else @click="assignPermission(`/employees/${employee.employees?.data?.id}/assign-permission`,{'name':permission.name})" class="px-3 dark:outline-blue-500  dark:border-blue-500 dark:text-black-600 hover:cursor-pointer hover:text-blue-600"  >
+                                                            Assign permission
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>    
                                 </div>
                                 
-                                <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                    <button type="submit"  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700">Update</button>
-                                </div>
-                            </form>
+                            
                         </div>
                     </div>
-                </div>
-               
+                    
+                </div>  
             </div>
         </div>
     </div>

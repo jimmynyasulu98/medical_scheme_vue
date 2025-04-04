@@ -24,6 +24,7 @@ export default defineNuxtConfig({
     "/invoices/*": { ssr: false },
     "/components/*": { ssr: false },
     "/roles/*": { ssr: false },
+    "/employees/*": { ssr: false },
    
 
   },
